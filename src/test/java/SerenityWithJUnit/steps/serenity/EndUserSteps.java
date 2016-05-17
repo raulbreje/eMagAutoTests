@@ -1,12 +1,12 @@
 package SerenityWithJUnit.steps.serenity;
 
-import SerenityWithJUnit.pages.DictionaryPage;
-import net.thucydides.core.annotations.Step;
-import net.thucydides.core.steps.ScenarioSteps;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
+
+import SerenityWithJUnit.pages.DictionaryPage;
+import net.thucydides.core.annotations.Step;
+import net.thucydides.core.steps.ScenarioSteps;
 
 public class EndUserSteps extends ScenarioSteps {
 
@@ -18,27 +18,42 @@ public class EndUserSteps extends ScenarioSteps {
 
     @Step
     public void enters(String keyword) {
-        dictionaryPage.enter_keywords(keyword);
+    	dictionaryPage.addKeyword(keyword);
     }
 
     @Step
-    public void starts_search() {
-        dictionaryPage.lookup_terms();
+    public void startSearch() {
+    	dictionaryPage.searchKeyword();
     }
 
     @Step
-    public void should_see_definition(String definition) {
+    public void shouldSeeDefinition(String definition) {
         assertThat(dictionaryPage.getDefinitions(), hasItem(containsString(definition)));
     }
-
+    
     @Step
-    public void is_the_home_page() {
-        dictionaryPage.open();
+    public void shouldSeeSuggestion(String sugestion) {
+        assertThat(dictionaryPage.getSuggestions(), hasItem(containsString(sugestion)));
     }
 
     @Step
-    public void looks_for(String term) {
+    public void openPage() {
+        dictionaryPage.open();
+    }
+    
+    @Step
+    public void clickMultimedia() {
+        dictionaryPage.selectMultimedia();
+    }
+    
+    @Step
+    public void clickSuggestion() {
+        dictionaryPage.selectSuggestion();
+    }
+
+    @Step
+    public void looksFor(String term) {
         enters(term);
-        starts_search();
+        startSearch();
     }
 }
